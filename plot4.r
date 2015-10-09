@@ -1,0 +1,21 @@
+#Plot 4
+setwd("C:/Users/Sara2/Desktop/ArchivosR")
+dat<-read.table("household_power_consumption.txt",header = TRUE,sep = ";", stringsAsFactors=FALSE, dec=".")
+gdata<-dat[dat$Date %in% c("1/2/2007","2/2/2007"),]
+GAP <- as.numeric(gdata$Global_active_power)
+x <- strptime(paste(gdata$Date, gdata$Time, sep=" "), "%d/%m/%Y %H:%M:%S")
+a<-as.numeric(gdata$Sub_metering_1)
+b<-as.numeric(gdata$Sub_metering_2)
+c<-as.numeric(gdata$Sub_metering_3)
+
+GRP <- as.numeric(gdata$Global_reactive_power)
+voltage <- as.numeric(gdata$Voltage)
+png("plot4.png", width=480, height=480)
+par(mfrow = c(2, 2)) 
+plot(x, GAP, type="l", xlab="", ylab="Global Active Power", cex=0.2)
+plot(x, voltage, type="l", xlab="datetime", ylab="Voltage")
+plot(x, a, type="l", xlab="", ylab="Energy sub metering", col="black")
+lines(x, b, type="l", col="red")
+lines(x, c, type="l", col="blue")
+legend("topright", c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), lty=1, lwd=2.5, col=c("black", "red", "blue"))
+plot(x, GRP, type="l", xlab="datetime", ylab="Global_reactive_power")
